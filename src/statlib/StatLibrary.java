@@ -275,6 +275,87 @@ public class StatLibrary {
 		    return numerator / denominator;
 		}
 
+	public BigInteger factorial(int n) {
+        BigInteger result = BigInteger.ONE;
+        for (int i = 2; i <= n; i++) {
+            result = result.multiply(BigInteger.valueOf(i));
+        }
+        return result;
+    }
+	
+	public BigInteger combination(int n, int k) {
+	    BigInteger numerator = factorial(n);
+	    BigInteger denominator = factorial(k).multiply(factorial(n - k));
+	    return numerator.divide(denominator);
+	}
+
+	public BigInteger permutation(int n, int k) {
+	    BigInteger numerator = factorial(n);
+	    BigInteger denominator = factorial(n - k);
+	    return numerator.divide(denominator);
+	}
+	
+/**
+ * The binomialDistribution method takes three parameters: n is the number of trials, k is the 
+ * number of successes, and p is the probability of success for each trial. The method first 
+ * calculates q = 1 - p, which is the probability of failure for each trial. It then calculates 
+ * the probability of getting exactly k successes in n trials using the formula 
+ * P(k) = C(n, k) * p^k * q^(n-k), where C(n, k) is the number of combinations of k successes in 
+ * n trials.
+
+The method uses the combination method provided to calculate C(n, k), and it uses BigDecimal to 
+perform the calculations with high precision. The numerator of the result is C(n, k) * p^k * q^(n-k), 
+and the denominator is 2^n. The result is returned as a BigDecimal.
+ * @param n
+ * @param k
+ * @param p
+ * @return
+ */
+	public BigDecimal binomialDistribution(int n, int k, double p) {
+	    BigDecimal q = BigDecimal.valueOf(1 - p);
+	    BigInteger numerator = combination(n, k);
+	    BigDecimal probability = BigDecimal.valueOf(p).pow(k).multiply(q.pow(n - k));
+	    return new BigDecimal(numerator).multiply(probability, MathContext.DECIMAL128);
+	}
+	
+/**
+ * This method works by adding up the probabilities of getting k, k + 1, k + 2, ..., n 
+ * successes, which is the same as the probability of getting at least k successes. We 
+ * don't need to calculate the probability of getting at most k successes, because we 
+ * can use the complement rule: the probability of getting at least k successes is 1 
+ * minus the probability of getting fewer than k successes.
+ * @param n
+ * @param k
+ * @param p
+ * @return
+ */
+	
+	public BigDecimal binomialDistributionAtLeast(int n, int k, double p) {
+	    BigDecimal probability = BigDecimal.ZERO;
+	    for (int i = k; i <= n; i++) {
+	        probability = probability.add(binomialDistribution(n, i, p));
+	    }
+	    return probability;
+	}
+
+	/**
+	 * This method works by adding up the probabilities of getting 0, 1, 2, ..., k successes, which is 
+	 * the same as the probability of getting at most k successes. We don't need to calculate the 
+	 * probability of getting more than k successes, because we can use the complement rule: the probability 
+	 * of getting at most k successes is 1 minus the probability of getting more than k successes.
+	 * @param n
+	 * @param k
+	 * @param p
+	 * @return
+	 */
+	public BigDecimal binomialDistributionAtMost(int n, int k, double p) {
+	    BigDecimal probability = BigDecimal.ZERO;
+	    for (int i = 0; i <= k; i++) {
+	        probability = probability.add(binomialDistribution(n, i, p));
+	    }
+	    return probability;
+	}
+
 		
 }
 
