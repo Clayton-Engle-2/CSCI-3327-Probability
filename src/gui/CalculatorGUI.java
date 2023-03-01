@@ -1,6 +1,7 @@
-package gui;
+package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -57,12 +58,17 @@ public class CalculatorGUI implements ActionListener {
         
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4, 5));
-        String[] buttonNames = {"1", "intersect", "3", "+", "A", "4", "5", "6", "-", "B", "7", "8", "9", "*", "C", ".", "0", "=", "/", "D"};
-        String[] buttonDescs = {"Button 1", "Button 2", "Button 3", "Add", "Set A", "Button 4", "Button 5", "Button 6", "Subtract", "Set B", "Button 7", "Button 8", "Button 9", "Multiply", "Clear", "Decimal", "Button 0", "Equal", "Divide", "Delete"};
+        buttonPanel.setPreferredSize(new Dimension(1720, 300));
+        buttonPanel.setLayout(new GridLayout(5, 5));
+        String[] buttonNames = {"Binomial PMF",       "Intersection",     "Factorial",       "Mean",            "CLEAR", 
+        						"Binomial E(x)",      "Union",            "Combination",     "Median",          "Geometric PMF", 
+        						"Binomial At Most",   "Complement",       "Permutation",     "Mode",            "Geometric E(x)", 
+        						"Binomial At Least",  "Birthday Paradox", "P(A|B)",          "Variance",        "GeoMetric Varience", 
+        						"Binomial Variance ",  "Monty Hall",      " Bayes' Theorem", "Std Deviation",   "ENTER",};
         for (int i = 0; i < buttonNames.length; i++) {
             JButton button = new JButton(buttonNames[i]);
-            button.setToolTipText(buttonDescs[i]);
+            button.setToolTipText(" ");
+            button.setFont(new Font("Arial", Font.BOLD, 24));
             button.addActionListener(this);
             buttonPanel.add(button);
         }
@@ -98,27 +104,23 @@ public class CalculatorGUI implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-    	
         String buttonName = ((JButton) e.getSource()).getText();
-        String buttonDesc = ((JButton) e.getSource()).getToolTipText();
         if (buttonName.equals("=")) {
-        	System.out.println(" flag");
             String setA = textFieldA.getText();
             String setB = textFieldB.getText();
             String opperation = LastButton;
             TripleString info = new TripleString(setA, setB, opperation);
             controlOut.put(info);
-            String answer = null;
-            while(answer == null) {
-            	if(controlIn.hasInput())
-            		answer = controlIn.take()[0];
-            }
-            System.out.println(answer);
-            label.setText(answer);
-            
-            
+            new Thread(() -> {
+                String answer = null;
+                while(answer == null) {
+                    if(controlIn.hasInput())
+                        answer = controlIn.take()[0];
+                }
+                System.out.println(answer);
+                label.setText("Solution: " + answer);
+            }).start();
         }
         LastButton = buttonName;
-        label.setText(buttonName + " - " + buttonDesc);
     }
 }
