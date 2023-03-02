@@ -355,6 +355,17 @@ and the denominator is 2^n. The result is returned as a BigDecimal.
 	    }
 	    return probability;
 	}
+	
+	public double binomialVariance(int n, double p) {
+	    return n * p * (1 - p);
+	}
+	
+	public double geometricExpectedValue(double p) {
+	    return 1 / p;
+	}
+	public double geometricProbOnTrial(double p, int k) {
+	    return Math.pow(1 - p, k - 1) * p;
+	}
 
 		
 }
