@@ -1,5 +1,14 @@
-/birthday/
 /entry/
-/montehall/
-/statlib/
+/gui/
+/control/
+/datatypes/
+/task/
 /structures/
+/statlib/
+/birthday/
+/testing/
+/scheduling/
+/scheduler/
+/view/
+/model/
+/main/
