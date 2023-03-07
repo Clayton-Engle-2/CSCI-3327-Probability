@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,8 +19,11 @@ import javax.swing.SwingConstants;
 
 import control.Pipe;
 import main.data.types.DisplayData;
+import main.data.types.DisplaySingleArray;
+import main.data.types.DisplaySingleDouble;
 import main.data.types.DisplaySolution;
 import main.data.types.DisplayTwoArrays;
+import main.data.types.DisplayTwoDoubles;
 
 public class CalculatorGUI implements ActionListener {
 	private JFrame frame;
@@ -35,7 +40,7 @@ public class CalculatorGUI implements ActionListener {
     	 this.frame = frame;
     	this.controlIn = cIn;
 		this.controlOut = cOut;
-		descriptions = new String[25];
+		descriptions = new String[30];
 		
     }
      
@@ -156,7 +161,7 @@ public class CalculatorGUI implements ActionListener {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(1720, 300));
-        buttonPanel.setLayout(new GridLayout(5, 5));
+        buttonPanel.setLayout(new GridLayout(6, 5));
         String[] buttonNames = {"Geometric PMF",       "Binomial PMF",      "Factorial",       "Mean",             "CLEAR", 
         						"Geometric Mean",      "Binomial Mean",     "Combination",     "Median",           "Intersection", 
         						"Geometric Variance",  "Binomial Variance", "Permutation",     "Mode",             "Union", 
@@ -331,11 +336,67 @@ public class CalculatorGUI implements ActionListener {
         	description.setText(descriptions[20]);
         	labelA.setText("p = ");
         }
-        if (buttonName.equals("ENTER")) {
-            String setA = textFieldA.getText();
-            String setB = textFieldB.getText();
-            String opperation = LastButton;
-            DisplayData info = new DisplayTwoArrays(setA, setB, opperation);
+        if (buttonName.equals("ENTER") && (LastButton.equals("Union") || LastButton.equals("Intersection")
+        		|| LastButton.equals("Compliment"))) {
+            DisplayData info = new DisplayTwoArrays(textFieldA.getText(), textFieldB.getText(), LastButton);
+            controlOut.put(info);
+            new Thread(() -> {
+                String answer = null;
+                while(answer == null) {
+                    if(controlIn.hasInput())
+                        answer = (controlIn.take().getSolution());
+                }
+                System.out.println(answer);
+                label.setText("Solution: " + answer);
+            }).start();
+        }
+        if (buttonName.equals("ENTER") && (LastButton.equals("Mean") || LastButton.equals("Median")
+        		|| LastButton.equals("Mode") || LastButton.equals("Variance") || LastButton.equals("Standard Dev"))) {
+            DisplayData info = new DisplaySingleArray(textFieldA.getText(),  LastButton);
+            controlOut.put(info);
+            new Thread(() -> {
+                String answer = null;
+                while(answer == null) {
+                    if(controlIn.hasInput())
+                        answer = (controlIn.take().getSolution());
+                }
+                System.out.println(answer);
+                label.setText("Solution: " + answer);
+            }).start();
+        }
+        if (buttonName.equals("ENTER") &&  (LastButton.equals("Binomial PMF") || LastButton.equals("Binomial At Most") || 
+        		LastButton.equals("Binomial At Least"))) {
+            DisplayData info = new DisplaySingleArray((textFieldA.getText()+", "+textFieldB.getText()+", "+textFieldC.getText()), LastButton);
+            controlOut.put(info);
+            new Thread(() -> {
+                String answer = null;
+                while(answer == null) {
+                    if(controlIn.hasInput())
+                        answer = (controlIn.take().getSolution());
+                }
+                System.out.println(answer);
+                label.setText("Solution: " + answer);
+            }).start();
+        }
+        if (buttonName.equals("ENTER") && (LastButton.equals("Binomial Mean") || LastButton.equals("Binomial Variance")
+        		|| LastButton.equals("Binomial Std Dev") || LastButton.equals("Combination") || LastButton.equals("Permutation")
+        		|| LastButton.equals("P(A|B)") || LastButton.equals("Bayes Theorem") || LastButton.equals("Geometric PMF") 
+        		|| LastButton.equals("Geometric Before N") || LastButton.equals("Birthday Paradox"))) {
+            DisplayData info = new DisplayTwoDoubles(textFieldA.getText(), textFieldB.getText(), LastButton);
+            controlOut.put(info);
+            new Thread(() -> {
+                String answer = null;
+                while(answer == null) {
+                    if(controlIn.hasInput())
+                        answer = (controlIn.take().getSolution());
+                }
+                System.out.println(answer);
+                label.setText("Solution: " + answer);
+            }).start();
+        }
+        if (buttonName.equals("ENTER") && (LastButton.equals("Factorial") || LastButton.equals("Geometric Mean")
+        		|| LastButton.equals("Geometric Variance") || LastButton.equals("Geometric Std Dev") || LastButton.equals("Monty Hall"))) {
+            DisplayData info = new DisplaySingleDouble(textFieldA.getText(),  LastButton);
             controlOut.put(info);
             new Thread(() -> {
                 String answer = null;
