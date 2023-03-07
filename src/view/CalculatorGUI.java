@@ -1,5 +1,3 @@
-package view;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -25,10 +23,9 @@ import main.data.types.DisplayTwoArrays;
 public class CalculatorGUI implements ActionListener {
 	private JFrame frame;
     private JLabel label;
-    private JLabel labelA;
-    private JLabel labelB;
+    private JLabel labelA, labelB, labelC;
     private JLabel description;
-    private JTextField textFieldA, textFieldB;
+    private JTextField textFieldA, textFieldB, textFieldC;
     private Pipe<DisplaySolution> controlIn; 
 	private Pipe<DisplayData> controlOut;
     private String LastButton;
@@ -122,17 +119,37 @@ public class CalculatorGUI implements ActionListener {
         		+ "event A will occur given event B has happened, and that events A and B are independent. <br>"
         		+ "A = the Probability of event A occuring. <br>"
         		+ "B = The probability of event B occuring. </html>";
-        descriptions[18] = "<html> The Variance function will calculate   </html>";
-        descriptions[19] = "<html> The compliment Function will find a set, whos elemnts  </html>";
+        descriptions[18] = "<html> The Variance function provides a measure of the spread or dispersion of the data. If the<br> "
+        		+ "variance is high, it means that the data points are spread out widely from the mean,<br>"
+        		+ " while a low variance indicates that the data points are clustered closely around the mean.  </html>";
+        descriptions[19] = "<html> The Compliment Function will find a set, whos elemnts  </html>";
         descriptions[20] = "<html> The Geometric Before N function will calculate the probability of a success occuring before a certain trial n </html>";
-        descriptions[21] = "<html> The Binomial At Most </html>";
-        descriptions[22] = "<html>  The Bayes Theorem function will </html>";
-        descriptions[23] = "<html> The Standard Deviation </html>";
+        descriptions[21] = "<html> The Binomial At Most function will calculate the probability of achieving k or fewer successes in n number<br>"
+        		+ "of trials. If there are 10 trials, this function will find the probability of<br>"
+        		+ "there being at most 5 successes."
+        		+ "p = The probability of a success on each independent trial. <br>"
+        		+ "n = The total number of trials that will be recorded. <br>"
+        		+ "k = The highest number of successes we are looking for in 'n' trials, </html>";
+        descriptions[22] = "<html>  The Bayes Theorem function will calculate the probability of event B occuring given event A has occured. </html>";
+        descriptions[23] = "<html> The Standard Deviation fubction provides a measure of the spread or dispersion of the data, and it is<br> "
+        		+ "expressed in the same units as the original data. A high standard deviation means that the data points<br>"
+        		+ " are spread out widely from the mean, while a low standard deviation indicates that the data points<br> "
+        		+ "are clustered closely around the mean.</html>";
         descriptions[24] = "<html> ENTER </html>";
         descriptions[25] = "<html> BACK </html>";
-        descriptions[26] = "<html> The Binomial At Least </html>";
-        descriptions[27] = "<html> The Monty Hall function</html>";
-        descriptions[28] = "<html> The Birthday Paradox</html>";
+        descriptions[26] = "<html> The Binomial At Least function will calculate the probability of achieving k or<br> "
+        		+ "more successes in 'n' number of trials. <br>"
+        		+ "p = The probability of having a success on each individual trial. <br>"
+        		+ "n = The total number of trials that will be recorded.<br>"
+        		+ "k = The minimum number of successes we are looking for in n trials. </html>";
+        descriptions[27] = "<html> The Monty Hall function will run a Monte Varlo simulation of the 3-door game show and keep track<br>"
+        		+ "of how often the correct door is guessed when switching doors, and when sticking with the same door<br>"
+        		+ "n = The number of games the simulation will run.  </html>";
+        descriptions[28] = "<html> The Birthday Paradox function will run a Monte Carlo simulation where a room of a certain number of<br>"
+        		+ "people is checked to see if any two people in the room share a birthday. The function will record<br>"
+        		+ "the percent chance of at least two people in a room sharing a birthday.<br>"
+        		+ "p = the number of people in the room. <br>"
+        		+ "n = the number of simulated rooms to check. (the more simulations the more accurate the result will be).</html>";
         descriptions[29] = "<html>ENTER  </html>";
         
         
@@ -146,13 +163,13 @@ public class CalculatorGUI implements ActionListener {
         						"Geometric Std Dev",   "Binomial Std Dev",  "P(A|B)",          "Variance",         "Compliment", 
         						"Geometric Before N",  "Binomial At Most",  "Bayes' Theorem",  "Std Deviation",    "ENTER",
         						"Back",                "Binomial At Least", "Monty Hall",      "Birthday Paradox", "ENTER",};
-        
-        JButton button = new JButton(buttonNames[0]);
-        button.setToolTipText(" ");
-        button.setFont(new Font("Arial", Font.BOLD, 24));
-        button.addActionListener(this);
-        buttonPanel.add(button);
-        
+        for(int i = 0; i < buttonNames.length; i++) {
+        	JButton button = new JButton(buttonNames[i]);
+        	button.setToolTipText(descriptions[i]);
+        	button.setFont(new Font("Arial", Font.BOLD, 24));
+        	button.addActionListener(this);
+        	buttonPanel.add(button);
+        }
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
         JPanel inputPanel = new JPanel();
@@ -178,6 +195,15 @@ public class CalculatorGUI implements ActionListener {
         textFieldB = new JTextField(20);
         textFieldB.setFont(new Font("Arial", Font.PLAIN, 20));
         inputPanel.add(textFieldB, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        labelC = new JLabel("");
+        labelC.setFont(new Font("Arial", Font.PLAIN, 20));
+        inputPanel.add(labelC, c);
+        c.gridx = 1;
+        textFieldC = new JTextField(20);
+        textFieldC.setFont(new Font("Arial", Font.PLAIN, 20));
+        inputPanel.add(textFieldC, c);
         panel.add(inputPanel, BorderLayout.WEST);
 
         frame.setContentPane(panel);
@@ -190,6 +216,120 @@ public class CalculatorGUI implements ActionListener {
         	description.setText(descriptions[0]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
+        }
+        if(buttonName.equals("Mean")) {
+        	description.setText(descriptions[3]);
+        	labelA.setText("Data Set: ");
+        }
+        if(buttonName.equals("Median")) {
+        	description.setText(descriptions[8]);
+        	labelA.setText("Data Set: ");
+        }
+        if(buttonName.equals("Mode")) {
+        	description.setText(descriptions[13]);
+        	labelA.setText("Data Set: ");
+        }
+        if(buttonName.equals("Variance")) {
+        	description.setText(descriptions[18]);
+        	labelA.setText("Data Set: ");
+        }
+        if(buttonName.equals("Standard Dev")) {
+        	description.setText(descriptions[23]);
+        	labelA.setText("Data Set: ");
+        }
+        if(buttonName.equals("Intersection")) {
+        	description.setText(descriptions[9]);
+        	labelA.setText("Set A: ");
+        	labelB.setText("Set B: ");
+        }
+        if(buttonName.equals("Union")) {
+        	description.setText(descriptions[14]);
+        	labelA.setText("Set A: ");
+        	labelB.setText("Set B: ");
+        }
+        if(buttonName.equals("Compliment")) {
+        	description.setText(descriptions[19]);
+        	labelA.setText("Set A: ");
+        	labelB.setText("Set B: ");
+        }
+        if(buttonName.equals("P(A|B)")) {
+        	description.setText(descriptions[17]);
+        	labelA.setText("Probability og Event A: ");
+        	labelB.setText("Probability og Event B: ");
+        }
+        if(buttonName.equals("Bayes Theorem")) {
+        	description.setText(descriptions[22]);
+        	labelA.setText("Probability og Event A: ");
+        	labelB.setText("Probability og Event B: ");
+        }
+        if(buttonName.equals("Factorial")) {
+        	description.setText(descriptions[2]);
+        	labelA.setText("n = ");
+        }
+        if(buttonName.equals("Combination")) {
+        	description.setText(descriptions[7]);
+        	labelA.setText("n = ");
+        	labelB.setText("r = ");
+        }
+        if(buttonName.equals("Permutation")) {
+        	description.setText(descriptions[12]);
+        	labelA.setText("n = ");
+        	labelB.setText("r = ");
+        }
+        if(buttonName.equals("Binomial Mean")) {
+        	description.setText(descriptions[6]);
+        	labelA.setText("p = ");
+        	labelB.setText("n = ");
+        }
+        if(buttonName.equals("Binomial Variance")) {
+        	description.setText(descriptions[11]);
+        	labelA.setText("p = ");
+        	labelB.setText("n = ");
+        }
+        if(buttonName.equals("Binomial Std Dev")) {
+        	description.setText(descriptions[16]);
+        	labelA.setText("p = ");
+        	labelB.setText("n = ");
+        }
+        if(buttonName.equals("Binomial PMF")) {
+        	description.setText(descriptions[11]);
+        	labelA.setText("p = ");
+        	labelB.setText("n = ");
+        	labelC.setText("k = ");
+        }
+        if(buttonName.equals("Binomial At Least")) {
+        	description.setText(descriptions[26]);
+        	labelA.setText("p = ");
+        	labelB.setText("n = ");
+        	labelC.setText("k = ");
+        }
+        if(buttonName.equals("Binomial At Most")) {
+        	description.setText(descriptions[21]);
+        	labelA.setText("p = ");
+        	labelB.setText("n = ");
+        	labelC.setText("k = ");
+        }
+        if(buttonName.equals("Geometric PMF")) {
+        	description.setText(descriptions[0]);
+        	labelA.setText("p = ");
+        	labelB.setText("n = ");
+        }
+        if(buttonName.equals("Geometric Before N")) {
+        	description.setText(descriptions[5]);
+        	labelA.setText("p = ");
+        	labelB.setText("n =  ");
+        }
+        if(buttonName.equals("Geometric Mean")) {
+        	description.setText(descriptions[10]);
+        	labelA.setText("p = ");
+        }
+        if(buttonName.equals("Geometric Variance")) {
+        	description.setText(descriptions[15]);
+        	labelA.setText("p = ");
+        }
+        if(buttonName.equals("Geometric Std Dev")) {
+        	description.setText(descriptions[20]);
+        	labelA.setText("p = ");
         }
         if (buttonName.equals("ENTER")) {
             String setA = textFieldA.getText();
