@@ -3,7 +3,6 @@ package control;
 import control.sched.ThreadScheduler;
 import control.tasks.tasksuper.Task;
 import main.data.structures.RedBlackNode;
-import main.data.structures.SingleLinkNode;
 import main.data.structures.SinglyLinkedList;
 import main.data.types.DataToStringConverter;
 import main.data.types.DisplayData;
@@ -26,11 +25,13 @@ public class ProgramControl {
 	
 //Input from view
 	private Pipe<DisplayData> viewIn;
+	private Pipe<Integer> shutdown;
 	
-	public ProgramControl( Pipe<DisplayData> viewIn, Pipe <DisplaySolution> viewOut) {
+	public ProgramControl( Pipe<DisplayData> viewIn, Pipe <DisplaySolution> viewOut, Pipe<Integer> shutdown) {
 		//Pipes to the GUI
 		this.viewIn = viewIn;
 		this.viewOut = viewOut;
+		this.shutdown = shutdown;
 		
 		//this. =  controlToViewBig;
 		convertInput = new StringToTaskConverter();
@@ -41,10 +42,14 @@ public class ProgramControl {
 	}
 	
 	public void run() {
-		while(true) {
+		boolean running = true;
+		while(running == true) {
 			handleViewInput();
 			handleModelIn();
 			scheduler.update();
+			if(checkShutdown() == false) {
+				running = false;
+			}
 		}
 	}
 	
@@ -66,8 +71,18 @@ public class ProgramControl {
 	}
 	
 	public void handleModelIn() {
-		if(well.hasInput()) {
+		if(well.hasInput() == true) {
 			viewOut.put(convertResults.toDisplay(well.take()));
 		}
-	}		
+	}	
+	public boolean checkShutdown() {
+		if(shutdown.hasInput() == true) {
+			Integer closeThread = shutdown.take();
+			if(closeThread.equals(-1)) {
+				scheduler.shutDown();
+				return false;
+			}
+		}
+		return true;
+	}
 }

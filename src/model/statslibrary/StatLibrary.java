@@ -206,6 +206,7 @@ public class StatLibrary {
         LinkedStack union = new LinkedStack();
 	    for (double value : array1) {
 	      alreadyIn.add(value, value);
+	      union.push(value);
 	    }
 	    for (double value : array2) {
 	    	boolean exists = alreadyIn.contains(value, value);
@@ -312,7 +313,7 @@ public class StatLibrary {
 	 * @param p the probability of success for each independent trail
 	 * @return the probability that k successes occur in n trials
 	 */
-	 public double binomialPmf(double n, double k, double p) {
+	 public double binomialPmf(double p, double n, double k) {
 		 BigDecimal q = BigDecimal.valueOf(1 - p);
 		 BigInteger numerator = combination(n, k);
 		 BigDecimal probability = BigDecimal.valueOf(p).pow((int) k).multiply(q.pow((int) (n - k)));
@@ -322,7 +323,7 @@ public class StatLibrary {
 	 /*
 	  * Method overload since k can be an int
 	  */
-	 public double binomialPmf(double n, int k, double p) {
+	 public double binomialPmf(double p, double n, int k) {
 		 BigDecimal q = BigDecimal.valueOf(1 - p);
 		 BigInteger numerator = combination(n, k);
 		 BigDecimal probability = BigDecimal.valueOf(p).pow((int) k).multiply(q.pow((int) (n - k)));
@@ -343,7 +344,7 @@ public class StatLibrary {
 	  * @return double the probability of observing k or more successes in n trials
 	  * @throws IllegalArgumentException if n or k is negative, or if p is outside the range [0, 1]
 	  */
-	 public double binomialDistributionAtLeast(double n, double k, double p) {
+	 public double binomialDistributionAtLeast(double p, double n, double k) {
 		 double q = 1.0 - p;
 		 double probability = 0.0;
 		 for (int i = 0; i < k; i++) {
@@ -363,7 +364,7 @@ public class StatLibrary {
 	  * @return double the probability of observing k or fewer successes in n trials
 	  * @throws IllegalArgumentException if n or k is negative, or if p is outside the range [0, 1]
 	  */
-	 public double binomialDistributionAtMost(double n, double k, double p) {
+	 public double binomialDistributionAtMost(double p, double n, double k) {
 		 double probability = 0.0;
 		 for (int i = 0; i <= k; i++) {
 			 probability += binomialPmf(n, i, p);
@@ -404,13 +405,13 @@ public class StatLibrary {
 	  * @return double the variance of the binomial distribution
 	  * @throws IllegalArgumentException if n is not a positive integer or if p is outside the range [0, 1]
 	 */
-	 public double binomialStdDev(double n, double p) {
+	 public double binomialStdDev(double p, double n) {
 		 return Math.sqrt(binomialVariance(n, p));
 	 }
-	 public double binomialMean(double n, double p) {
+	 public double binomialMean(double p, double n) {
 		 return n * p ;
 	 }
-	 public double binomialVariance(double n, double p) {
+	 public double binomialVariance(double p, double n) {
 		 return n * p * (1 - p);
 	 }
 	 

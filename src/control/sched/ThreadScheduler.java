@@ -33,7 +33,9 @@ public class ThreadScheduler {
 		 }
 	 }
 	 
-	
+	public void shutDown() {
+		executor.shutdown();
+	}
 	 public ThreadExecutor createThreadExecutor(SchedQueue queue) {
 	        int availableCpus = Runtime.getRuntime().availableProcessors();
 	        int guiThreadCount = getGuiThreadCount();
