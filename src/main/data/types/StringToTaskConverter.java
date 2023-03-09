@@ -158,7 +158,7 @@ public class StringToTaskConverter {
         int digitsAfterDecimal = 0;
 
         // Handle leading sign character, if present
-        if (input.length != 0 &&input[0] == '-' ) 
+        if(input[0] == '-' ) 
             sign = -1;
 
         // Iterate over the input string, handling each character
