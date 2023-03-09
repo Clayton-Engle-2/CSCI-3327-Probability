@@ -11,8 +11,9 @@ public class Loader {
 	public void load() {
 		Pipe<DisplayData> viewToControl = new Pipe<DisplayData>();
 		Pipe<DisplaySolution> controlToView = new Pipe<DisplaySolution>();
-		ProgramControl control = new ProgramControl(viewToControl, controlToView);
-		MainMenuGUI view = new MainMenuGUI(controlToView, viewToControl);
+		Pipe<Integer> shutdown = new Pipe<Integer>();
+		ProgramControl control = new ProgramControl(viewToControl, controlToView, shutdown);
+		MainMenuGUI view = new MainMenuGUI(controlToView, viewToControl, shutdown);
 		
 		view.start();
 		control.run();
