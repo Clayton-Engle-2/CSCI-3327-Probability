@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,18 +25,26 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import control.Pipe;
 import main.data.types.DisplayData;
+import main.data.types.DisplaySingleArray;
 import main.data.types.DisplaySolution;
 
 public class MainMenuGUI {
 	private Pipe<DisplaySolution> controlIn; 
 	private Pipe<DisplayData> controlOut;
+	private Pipe<Integer> shutdown;
 	public JFrame frame;
 	
-	public MainMenuGUI(Pipe<DisplaySolution> cIn, Pipe<DisplayData> cOut) {
+	public MainMenuGUI(Pipe<DisplaySolution> cIn, Pipe<DisplayData> cOut, Pipe<Integer> shutdown) {
 		this.controlIn = cIn;
 		this.controlOut = cOut;
+		this.shutdown = shutdown;
 		frame = new JFrame("Example GUI");
 	}
+	public void windowClosing(WindowEvent e) {
+		shutdown.put(- 1);
+        frame.dispose();
+        System.exit(0);
+    }
 
 	public void start() {
 		EventQueue.invokeLater(new Runnable() {
@@ -94,4 +103,3 @@ public class MainMenuGUI {
 		});
 	}
 }
-
