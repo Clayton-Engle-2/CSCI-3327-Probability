@@ -1,21 +1,32 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import control.Pipe;
 import main.data.types.DisplayData;
@@ -27,6 +38,7 @@ import main.data.types.DisplayTwoDoubles;
 
 public class CalculatorGUI implements ActionListener {
 	private JFrame frame;
+	private JLabel Alabel;
     private JLabel label;
     private JLabel labelA, labelB, labelC;
     private JLabel description;
@@ -45,22 +57,49 @@ public class CalculatorGUI implements ActionListener {
     }
      
     public void start() {
+    	try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+			ex.printStackTrace();
+		}
         frame.setSize(1920, 1080);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        
+        BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("C:\\Users\\Clayton\\Desktop\\Pictures\\snow.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
+		ImageIcon imageIcon = new ImageIcon(img);
+		Image image = imageIcon.getImage();
+		Image newimg = image.getScaledInstance(1920, 1080,  java.awt.Image.SCALE_SMOOTH);
+		
+		JPanel panel = new JPanel(new BorderLayout()) {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(newimg, 0, 0, frame.getWidth(), frame.getHeight(), null);
+			}
+    	};
+		Alabel = new JLabel(new ImageIcon(newimg));
+		panel.add(Alabel);
+		
         label = new JLabel("Welcome to My GUI");
+        label.setBackground(new Color(0, 0, 0, 0));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 30));
         panel.add(label, BorderLayout.NORTH);
-        
+
         JPanel answer = new JPanel();
-        answer.setLayout(new BorderLayout());
+        answer.setLayout(new FlowLayout(FlowLayout.LEFT)); 
+        answer.setBackground(new Color(0, 0, 0, 0));
 
         description = new JLabel("<html> </html>");
+        description.setBackground(Color.RED);
         description.setHorizontalAlignment(SwingConstants.CENTER);
         description.setFont(new Font("Arial", Font.BOLD, 20));
         answer.add(description, BorderLayout.NORTH);
@@ -160,8 +199,9 @@ public class CalculatorGUI implements ActionListener {
         
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(1720, 300));
-        buttonPanel.setLayout(new GridLayout(6, 5));
+        buttonPanel.setBackground(new Color(0, 0, 0, 0));
+        buttonPanel.setPreferredSize(new Dimension(1720, 400));
+        buttonPanel.setLayout(new GridLayout(6, 5, 10, 10));
         String[] buttonNames = {"Geometric PMF",       "Binomial PMF",      "Factorial",       "Mean",             "CLEAR", 
         						"Geometric Mean",      "Binomial Mean",     "Combination",     "Median",           "Intersection", 
         						"Geometric Variance",  "Binomial Variance", "Permutation",     "Mode",             "Union", 
@@ -170,7 +210,9 @@ public class CalculatorGUI implements ActionListener {
         						"Back",                "Binomial At Least", "Monty Hall",      "Birthday Paradox", "ENTER",};
         for(int i = 0; i < buttonNames.length; i++) {
         	JButton button = new JButton(buttonNames[i]);
-        	button.setToolTipText(descriptions[i]);
+        	button.setForeground(Color.WHITE);
+        	button.setBackground(new Color(0f, 0f, 0f, 0.005f));
+        
         	button.setFont(new Font("Arial", Font.BOLD, 24));
         	button.addActionListener(this);
         	buttonPanel.add(button);
@@ -178,6 +220,7 @@ public class CalculatorGUI implements ActionListener {
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
         JPanel inputPanel = new JPanel();
+        inputPanel.setBackground(new Color(0, 0, 0, 0));
         inputPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.WEST;
@@ -190,6 +233,8 @@ public class CalculatorGUI implements ActionListener {
         c.gridx = 1;
         textFieldA = new JTextField(20);
         textFieldA.setFont(new Font("Arial", Font.PLAIN, 20));
+        textFieldA.setBackground(new Color(0, 0, 0, 0));
+        textFieldA.setVisible(false);
         inputPanel.add(textFieldA, c);
         c.gridx = 0;
         c.gridy = 1;
@@ -199,6 +244,8 @@ public class CalculatorGUI implements ActionListener {
         c.gridx = 1;
         textFieldB = new JTextField(20);
         textFieldB.setFont(new Font("Arial", Font.PLAIN, 20));
+        textFieldB.setBackground(new Color(0, 0, 0, 0));
+        textFieldB.setVisible(false);
         inputPanel.add(textFieldB, c);
         c.gridx = 0;
         c.gridy = 2;
@@ -208,6 +255,8 @@ public class CalculatorGUI implements ActionListener {
         c.gridx = 1;
         textFieldC = new JTextField(20);
         textFieldC.setFont(new Font("Arial", Font.PLAIN, 20));
+        textFieldC.setBackground(new Color(0, 0, 0, 0));
+        textFieldC.setVisible(false);
         inputPanel.add(textFieldC, c);
         panel.add(inputPanel, BorderLayout.WEST);
 
@@ -224,117 +273,219 @@ public class CalculatorGUI implements ActionListener {
         }
         if(buttonName.equals("Mean")) {
         	description.setText(descriptions[3]);
+        	labelB.setText(" ");
+        	labelC.setText(" ");
         	labelA.setText("Data Set: ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Median")) {
         	description.setText(descriptions[8]);
         	labelA.setText("Data Set: ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Mode")) {
         	description.setText(descriptions[13]);
         	labelA.setText("Data Set: ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Variance")) {
         	description.setText(descriptions[18]);
         	labelA.setText("Data Set: ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Standard Dev")) {
         	description.setText(descriptions[23]);
         	labelA.setText("Data Set: ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Intersection")) {
         	description.setText(descriptions[9]);
         	labelA.setText("Set A: ");
         	labelB.setText("Set B: ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Union")) {
         	description.setText(descriptions[14]);
         	labelA.setText("Set A: ");
         	labelB.setText("Set B: ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Compliment")) {
         	description.setText(descriptions[19]);
         	labelA.setText("Set A: ");
         	labelB.setText("Set B: ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("P(A|B)")) {
         	description.setText(descriptions[17]);
         	labelA.setText("Probability og Event A: ");
         	labelB.setText("Probability og Event B: ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Bayes Theorem")) {
         	description.setText(descriptions[22]);
         	labelA.setText("Probability og Event A: ");
         	labelB.setText("Probability og Event B: ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Factorial")) {
         	description.setText(descriptions[2]);
         	labelA.setText("n = ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Combination")) {
         	description.setText(descriptions[7]);
         	labelA.setText("n = ");
         	labelB.setText("r = ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Permutation")) {
         	description.setText(descriptions[12]);
         	labelA.setText("n = ");
         	labelB.setText("r = ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Binomial Mean")) {
         	description.setText(descriptions[6]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Binomial Variance")) {
         	description.setText(descriptions[11]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Binomial Std Dev")) {
         	description.setText(descriptions[16]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Binomial PMF")) {
         	description.setText(descriptions[11]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
         	labelC.setText("k = ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(true);
         }
         if(buttonName.equals("Binomial At Least")) {
         	description.setText(descriptions[26]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
         	labelC.setText("k = ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(true);
         }
         if(buttonName.equals("Binomial At Most")) {
         	description.setText(descriptions[21]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
         	labelC.setText("k = ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(true);
         }
         if(buttonName.equals("Geometric PMF")) {
         	description.setText(descriptions[0]);
         	labelA.setText("p = ");
         	labelB.setText("n = ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Geometric Before N")) {
         	description.setText(descriptions[5]);
         	labelA.setText("p = ");
         	labelB.setText("n =  ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Geometric Mean")) {
         	description.setText(descriptions[10]);
         	labelA.setText("p = ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Geometric Variance")) {
         	description.setText(descriptions[15]);
         	labelA.setText("p = ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Geometric Std Dev")) {
         	description.setText(descriptions[20]);
         	labelA.setText("p = ");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
         }
         if (buttonName.equals("ENTER") && (LastButton.equals("Union") || LastButton.equals("Intersection")
         		|| LastButton.equals("Compliment"))) {
