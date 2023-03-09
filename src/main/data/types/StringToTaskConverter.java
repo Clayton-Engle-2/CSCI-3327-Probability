@@ -83,6 +83,7 @@ public class StringToTaskConverter {
 	
 	
 	public double stringToDouble(String input) {
+		if(input != null) {
 	    LinkedStack doubles = new LinkedStack();
 	    int start = 0;
 
@@ -113,6 +114,8 @@ public class StringToTaskConverter {
     	 double[] number = doubles.popAll();
 	    // Convert the List to an array and return it
 	    return number[0];
+	}
+		return 0.0;
 	}
 	
 	public double[] stringToDoubleArray(String input) {
@@ -155,7 +158,7 @@ public class StringToTaskConverter {
         int digitsAfterDecimal = 0;
 
         // Handle leading sign character, if present
-        if (input[0] == '-') 
+        if(input[0] == '-' ) 
             sign = -1;
 
         // Iterate over the input string, handling each character
