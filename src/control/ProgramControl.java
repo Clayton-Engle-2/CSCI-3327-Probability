@@ -7,6 +7,7 @@ import main.data.structures.SinglyLinkedList;
 import main.data.types.DataToStringConverter;
 import main.data.types.DisplayData;
 import main.data.types.DisplaySolution;
+import main.data.types.DisplayTwoDoubles;
 import main.data.types.ShareData;
 import main.data.types.StringToTaskConverter;
 
@@ -72,6 +73,7 @@ public class ProgramControl {
 	
 	public void handleModelIn() {
 		if(well.hasInput() == true) {
+			System.out.println("task complete");
 			viewOut.put(convertResults.toDisplay(well.take()));
 		}
 	}	

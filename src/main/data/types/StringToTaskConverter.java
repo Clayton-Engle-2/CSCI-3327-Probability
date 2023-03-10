@@ -72,7 +72,7 @@ public class StringToTaskConverter {
 	
 	public Task convert(DisplayTwoDoubles input, Pipe<ShareData> pipe) {
 		Task task = null;
-		task = createTask(input.getOpperation(), stringToDouble(input.getDouble1()), stringToDouble(input.getDouble1()), pipe );
+		task = createTask(input.getOpperation(), extractNumber(input.getDub1()), extractNumber(input.getDub2()), pipe );
 		return task;
 	}
 	public Task convert(DisplaySingleDouble input, Pipe<ShareData> pipe) {
@@ -117,7 +117,7 @@ public class StringToTaskConverter {
 	}
 		return 0.0;
 	}
-	
+	/*
 	public double[] stringToDoubleArray(String input) {
 	    LinkedStack doubles = new LinkedStack();
 	    int start = 0;
@@ -149,7 +149,7 @@ public class StringToTaskConverter {
 	    // Convert the List to an array and return it
 	    return doubles.popAll();
 	}
-	
+	*/
 	public double parseDouble(char[] input) {
         double result = 0.0;
         int sign = 1;
@@ -196,5 +196,29 @@ public class StringToTaskConverter {
 
         return result;
     }
+	public double extractNumber(String input) {
+	    String numberStr = "";
+	    boolean foundDecimal = false;
+	    for (int i = 0; i < input.length(); i++) {
+	        char c = input.charAt(i);
+	        if (Character.isDigit(c)) {
+	            numberStr += c;
+	        } else if (c == '.' && !foundDecimal) {
+	            numberStr += c;
+	            foundDecimal = true;
+	        } else if (c == '-' && numberStr.length() == 0) {
+	            numberStr += c;
+	        }
+	    }
+	    return Double.parseDouble(numberStr);
+	}
+	public static double[] stringToDoubleArray(String input) {
+	    String[] stringArray = input.split(",");
+	    double[] doubleArray = new double[stringArray.length];
+	    for (int i = 0; i < stringArray.length; i++) {
+	        doubleArray[i] = Double.parseDouble(stringArray[i]);
+	    }
+	    return doubleArray;
+	}
 
 }

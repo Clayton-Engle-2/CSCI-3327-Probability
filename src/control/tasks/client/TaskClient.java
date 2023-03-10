@@ -8,6 +8,7 @@ import control.tasks.concretefacotires.BiDistroExactFactory;
 import control.tasks.concretefacotires.BinomialMeanFactory;
 import control.tasks.concretefacotires.BinomialSdFactory;
 import control.tasks.concretefacotires.BinomialVarianceFactory;
+import control.tasks.concretefacotires.BirthdayFactory;
 import control.tasks.concretefacotires.CombinationFactory;
 import control.tasks.concretefacotires.ComplimentFactory;
 import control.tasks.concretefacotires.ConditionalProbFactory;
@@ -21,6 +22,7 @@ import control.tasks.concretefacotires.IntersectionFactory;
 import control.tasks.concretefacotires.MeanFactory;
 import control.tasks.concretefacotires.MedianFactory;
 import control.tasks.concretefacotires.ModeFactory;
+import control.tasks.concretefacotires.MontyHallFactory;
 import control.tasks.concretefacotires.PermutationFactory;
 import control.tasks.concretefacotires.StandardDevFactory;
 import control.tasks.concretefacotires.UnionFactory;
@@ -56,15 +58,15 @@ public class TaskClient {
 		taskList.add(new CombinationFactory(), "Combination");
 		taskList.add(new PermutationFactory(), "Permutation");
 		taskList.add(new ConditionalProbFactory(), "P(A|B)");
-		taskList.add(new BayesTheoremFactory(), "BayesTheorem");
+		taskList.add(new BayesTheoremFactory(), "Bayes Theorem");
 		
 		// Binomial Distribution operations
 		taskList.add(new BiDistroExactFactory(), "Binomial PMF");
 		taskList.add(new BiDistroAtMostFactory(), "Binomial At Most");
 		taskList.add(new BiDistroAtLeastFactory(), "Binomial At Least");
-		taskList.add(new BinomialVarianceFactory(), "Binomial PMF");
-		taskList.add(new BinomialMeanFactory(), "Binomial At Most");
-		taskList.add(new BinomialSdFactory(), "Binomial At Least");
+		taskList.add(new BinomialVarianceFactory(), "Binomial Variance");
+		taskList.add(new BinomialMeanFactory(), "Binomial Mean");
+		taskList.add(new BinomialSdFactory(), "Binomial Std Dev");
 		
 		//Geometric operations
 		taskList.add(new GeometricPmfFactory(), "Geometric PMF");
@@ -73,6 +75,9 @@ public class TaskClient {
 		taskList.add(new GeometricStdDevFactory(), "Geometric Std Dev");
 		taskList.add(new GeometricBeforeFactory(), "Geometric Before N");
 		
+		// Simulation programs
+		taskList.add(new MontyHallFactory(), "Monty Hall");
+		taskList.add(new BirthdayFactory(), "Birthday Paradox");
 	}
 	
 	public Task newTask(String opperation, double number, Pipe<ShareData> pipe) {

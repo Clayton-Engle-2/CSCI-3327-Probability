@@ -27,15 +27,17 @@ public class Mode extends Task implements Runnable{
 	@Override
 	public void run() {
 		
-		double avg = 0;
+		Double avg = 0.0;
 			
 		try {
 			avg = stat.mode(data);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		if(data == null) {
 			
-		ShareData ret = new DoubleAndString(avg, "mode");
+		}
+		ShareData ret = new DoubleAndString(avg, "Mode");
 		toControl.put(ret);
 	}
 

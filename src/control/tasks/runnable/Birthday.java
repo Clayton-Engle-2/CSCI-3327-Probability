@@ -4,40 +4,39 @@ import control.Pipe;
 import control.tasks.tasksuper.Task;
 import main.data.types.DoubleAndString;
 import main.data.types.ShareData;
-import model.statslibrary.StatLibrary;
+import model.birthdayparadox.BirthdayParadox;
 
-public class BinomialMean extends Task implements Runnable{
+public class Birthday extends Task implements Runnable{
 	
 	private boolean isReady;
 	private long memoryNeeded;
 	private long actions;;
 	
-	private double num1;
-	private double num2;
+	private int simNumber;
+	private int people;
 	private Pipe<ShareData> toControl;
-	private StatLibrary stat;
+	private BirthdayParadox simulation;
 	
 	
-	public BinomialMean(double number1, double number2, Pipe<ShareData> pipe) {
+	public Birthday(double number1, double number2, Pipe<ShareData> pipe) {
 		super(number1, number2, pipe);
-		num1 = number1;
-		num2 = number2;
+		simNumber = (int)number1;
+		people = (int)number2;
 		toControl = pipe;
-		stat= new StatLibrary();
+		simulation = new BirthdayParadox();
 	}
-
 	@Override
 	public void run() {
 		
-		double probability = 0.0;
+		double results = 0.0;
 			
 		try {
-			probability = stat.binomialMean(num1, num2);
+			results = simulation.beginSimulation(people, simNumber);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 			
-		ShareData ret = new DoubleAndString(probability, "P(A|B)");
+		ShareData ret = new DoubleAndString(results, "Birthday Paradox");
 		toControl.put(ret);
 	}
 
@@ -66,4 +65,7 @@ public class BinomialMean extends Task implements Runnable{
 	public void setActions(long actions) {
 		this.actions = actions;
 	}
+
 }
+
+

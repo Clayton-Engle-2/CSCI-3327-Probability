@@ -78,7 +78,10 @@ public class StatLibrary {
 				mode = value;
 			}
 		} 
-		return mode;
+		Double validMode = mode;
+		if(maxCount == 1)
+			validMode = null;
+		return validMode;
 	}
 	
 	/**
@@ -345,7 +348,6 @@ public class StatLibrary {
 	  * @throws IllegalArgumentException if n or k is negative, or if p is outside the range [0, 1]
 	  */
 	 public double binomialDistributionAtLeast(double p, double n, double k) {
-		 double q = 1.0 - p;
 		 double probability = 0.0;
 		 for (int i = 0; i < k; i++) {
 			 probability += binomialPmf(n, i, p);
@@ -439,7 +441,7 @@ public class StatLibrary {
 		 return Math.pow(1 - p, n);
 	 }
 	 public double geometricVariance(double p) {
-		 return (1 - p) / p;
+		 return (1 - p) / Math.pow(p, 2);
 	 }
 	 public double geometricStdDev(double p) {
 		 return Math.sqrt(geometricVariance(p));
@@ -465,16 +467,6 @@ public class StatLibrary {
 			 result *= base;
 		 }
 		 return result;
-	 }
-		
-		
-	 public double squareRoot(double num, double precision) {
-		 double approx = (num + 1) / 2;
-		 double difference = Math.abs(approx * approx - num);
-		 if (difference <= precision) {
-			 return approx;
-		 }
-		 return squareRoot((approx + num / approx) / 2, precision);
 	 }
 	 /**
 	  * Sums all the elements of an array of doubles.

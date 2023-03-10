@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,12 +34,13 @@ public class MainMenuGUI {
 	private Pipe<DisplayData> controlOut;
 	private Pipe<Integer> shutdown;
 	public JFrame frame;
+	private JLabel label, Alabel;
 	
 	public MainMenuGUI(Pipe<DisplaySolution> cIn, Pipe<DisplayData> cOut, Pipe<Integer> shutdown) {
 		this.controlIn = cIn;
 		this.controlOut = cOut;
 		this.shutdown = shutdown;
-		frame = new JFrame("Example GUI");
+		frame = new JFrame("Probability Calculator");
 	}
 	public void windowClosing(WindowEvent e) {
 		shutdown.put(- 1);
@@ -63,7 +65,7 @@ public class MainMenuGUI {
 
 				BufferedImage img = null;
 				try {
-					img = ImageIO.read(new File("C:\\Users\\Clayton\\Desktop\\Pictures\\welcome.jpg"));
+					img = ImageIO.read(new File("C:\\Users\\Clayton\\Desktop\\Pictures\\intro.jpg"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -72,9 +74,21 @@ public class MainMenuGUI {
 				Image image = imageIcon.getImage();
 				Image newimg = image.getScaledInstance(1920, 1080,  java.awt.Image.SCALE_SMOOTH);
 
-				JPanel panel = new JPanel(new BorderLayout());
-				JLabel label = new JLabel(new ImageIcon(newimg));
-				panel.add(label);
+				JPanel panel = new JPanel(new BorderLayout()) {
+					@Override
+					public void paintComponent(Graphics g) {
+						super.paintComponent(g);
+						g.drawImage(newimg, 0, 0, frame.getWidth(), frame.getHeight(), null);
+					}
+		    	};
+				Alabel = new JLabel(new ImageIcon(newimg));
+				panel.add(Alabel);
+				
+		        label = new JLabel("Probability Calculator");
+		        label.setBackground(new Color(0, 0, 0, 0));
+		        label.setHorizontalAlignment(JLabel.CENTER);
+		        label.setFont(new Font("Arial", Font.BOLD, 64));
+		        panel.add(label, BorderLayout.NORTH);
 
 				JButton btn = new JButton("BEGIN");
 				btn.setBackground(Color.BLACK);

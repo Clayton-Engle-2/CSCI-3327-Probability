@@ -9,9 +9,9 @@ import main.data.types.ShareData;
 public class CombinationFactory extends TaskFactory {
 	
 	@Override
-	public Task makeTask(double[] number, Pipe<ShareData> pipe){
+	public Task makeTask(double number1, double number2, Pipe<ShareData> pipe){
 			
-		Task combination = new Combination(number, pipe);
+		Task combination = new Combination(number1, number2, pipe);
 		return combination;
 	}
 

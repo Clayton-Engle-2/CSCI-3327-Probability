@@ -14,14 +14,16 @@ public class Permutation extends Task implements Runnable{
 	private long memoryNeeded;
 	private long actions;;
 	
-	private double[] data;
+	private double data1;
+	private double data2;
 	private Pipe<ShareData> toControl;
 	private StatLibrary stat;
 	
 	
-	public Permutation(double[] number, Pipe<ShareData> pipe) {
-		super(number, pipe);
-		data = number;
+	public Permutation(double number1, double number2, Pipe<ShareData> pipe) {
+		super(number1, number2, pipe);
+		data1 = number1;
+		data2 = number2;
 		toControl = pipe;
 		stat= new StatLibrary();
 	}
@@ -32,7 +34,7 @@ public class Permutation extends Task implements Runnable{
 		BigInteger permu = null;
 			
 		try {
-			permu = stat.permutation(data[0], data[1]);
+			permu = stat.permutation(data1, data2);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

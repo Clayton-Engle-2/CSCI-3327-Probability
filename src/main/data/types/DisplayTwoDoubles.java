@@ -2,13 +2,13 @@ package main.data.types;
 
 public class DisplayTwoDoubles extends DisplayData{
 	
-	private String double1;
-	private String double2;
+	private String dub1;
+	private String dub2;
 	private String opperation;
 	
-	public DisplayTwoDoubles(String double11, String double2, String opperation) {
-		this.setDouble1(double1);
-		this.setDouble2(double2);
+	public DisplayTwoDoubles(String d1, String d2, String opperation) {
+		this.setDub1(d1);
+		this.setDub2(d2);
 		this.setOpperation(opperation);
 	}
 
@@ -20,20 +20,20 @@ public class DisplayTwoDoubles extends DisplayData{
 		this.opperation = opperation;
 	}
 
-	public String getDouble1() {
-		return double1;
+	public String getDub1() {
+		return dub1;
 	}
 
-	public void setDouble1(String double1) {
-		this.double1 = double1;
+	public void setDub1(String dub1) {
+		this.dub1 = dub1;
 	}
 
-	public String getDouble2() {
-		return double2;
+	public String getDub2() {
+		return dub2;
 	}
 
-	public void setDouble2(String double2) {
-		this.double2 = double2;
+	public void setDub2(String dub2) {
+		this.dub2 = dub2;
 	}
 
 }
