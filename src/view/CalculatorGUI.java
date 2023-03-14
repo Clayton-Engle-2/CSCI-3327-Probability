@@ -28,13 +28,13 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import control.Pipe;
-import main.data.types.DisplayData;
-import main.data.types.DisplaySingleArray;
-import main.data.types.DisplaySingleDouble;
-import main.data.types.DisplaySolution;
-import main.data.types.DisplayTwoArrays;
-import main.data.types.DisplayTwoDoubles;
+import control.io.Pipe;
+import main.data.types.display.DisplayData;
+import main.data.types.display.DisplaySingleArray;
+import main.data.types.display.DisplaySingleDouble;
+import main.data.types.display.DisplaySolution;
+import main.data.types.display.DisplayTwoArrays;
+import main.data.types.display.DisplayTwoDoubles;
 
 public class CalculatorGUI implements ActionListener {
 	private JFrame frame;
@@ -88,7 +88,7 @@ public class CalculatorGUI implements ActionListener {
 		Alabel = new JLabel(new ImageIcon(newimg));
 		panel.add(Alabel);
 		
-        label = new JLabel("Welcome to My GUI");
+        label = new JLabel("To begin, select a function");
         label.setBackground(new Color(0, 0, 0, 0));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 30));
@@ -126,8 +126,9 @@ public class CalculatorGUI implements ActionListener {
         		+ "p = The probability of success for each independent trial. <br>"
         		+ "n = The total number of trials to be tested. </html>" ;
         descriptions[7] = "<html>The Combination function will calculate how many different ways a set of items can be arranged in subsets<br> "
-        		+ "of a certain size.  For example, this function could calculate how many different ways cards of a certain suit could be<br> "
-        		+ "arranged into a 5 card hand by entering n = 13 (total number of hearts in a deck) and r = 5 (arrangements of 5 card hands). <br>"
+        		+ "of a certain size.  For example, this function could calculate how many different ways cards of a certain suit<br>"
+        		+ "could be arranged into a 5 card hand by entering n = 13 (total number of hearts in a deck) and r = 5<br>"
+        		+ "(arrangements of 5 card hands). <br>"
         		+ "n = total number of items. <br>"
         		+ "r = The number of items in a group </html>";
         descriptions[8] = "<html> The Median function calculates the elemnt in a set of numbers that would be the middle most if the set was sorted </html>";
@@ -227,7 +228,7 @@ public class CalculatorGUI implements ActionListener {
         c.insets = new Insets(10, 10, 10, 10);
         c.gridx = 0;
         c.gridy = 0;
-        labelA = new JLabel("");
+        labelA = new JLabel("A");
         labelA.setFont(new Font("Arial", Font.PLAIN, 20));
         inputPanel.add(labelA, c);
         c.gridx = 1;
@@ -238,7 +239,7 @@ public class CalculatorGUI implements ActionListener {
         inputPanel.add(textFieldA, c);
         c.gridx = 0;
         c.gridy = 1;
-        labelB = new JLabel("");
+        labelB = new JLabel("B");
         labelB.setFont(new Font("Arial", Font.PLAIN, 20));
         inputPanel.add(labelB, c);
         c.gridx = 1;
@@ -249,7 +250,7 @@ public class CalculatorGUI implements ActionListener {
         inputPanel.add(textFieldB, c);
         c.gridx = 0;
         c.gridy = 2;
-        labelC = new JLabel("");
+        labelC = new JLabel("C");
         labelC.setFont(new Font("Arial", Font.PLAIN, 20));
         inputPanel.add(labelC, c);
         c.gridx = 1;
@@ -266,154 +267,317 @@ public class CalculatorGUI implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         String buttonName = ((JButton) e.getSource()).getText();
-        if(buttonName.equals("Geometric PMF")) {
-        	description.setText(descriptions[0]);
-        	labelA.setText("p = ");
-        	labelB.setText("n = ");
+        if(buttonName.equals("CLEAR")) {
+        	description.setText(" ");
+        	label.setText("Select a function");
+        	textFieldA.setVisible(false);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
+        	labelA.setVisible(false);
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
         }
         if(buttonName.equals("Mean")) {
         	description.setText(descriptions[3]);
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
-        	labelA.setText("Data Set: ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("Data Set: " + textFieldA.getText());
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(false);
+        	textFieldC.setVisible(false);
+        }
+        if(buttonName.equals("Momty Hall")) {
+        	description.setText(descriptions[27]);
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
+        	labelB.setText(" ");
+        	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("Number of simulations to run: " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Median")) {
         	description.setText(descriptions[8]);
-        	labelA.setText("Data Set: ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("Data Set: " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Mode")) {
         	description.setText(descriptions[13]);
-        	labelA.setText("Data Set: ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("Data Set: " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Variance")) {
         	description.setText(descriptions[18]);
-        	labelA.setText("Data Set: ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("Data Set: " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Standard Dev")) {
         	description.setText(descriptions[23]);
-        	labelA.setText("Data Set: ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("Data Set: " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
-        if(buttonName.equals("Intersection")) {
-        	description.setText(descriptions[9]);
-        	labelA.setText("Set A: ");
-        	labelB.setText("Set B: ");
-        	labelC.setText(" ");
+        if(buttonName.equals("Birthday Paradox")) {
+        	description.setText(descriptions[28]);
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("Number of people: " + textFieldA.getText());
+        	labelB.setText("Number of simulations to run: " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
+        }
+        if(buttonName.equals("Intersection")) {
+        	description.setText(descriptions[9]);
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
+        	textFieldA.setVisible(true);
+        	textFieldB.setVisible(true);
+        	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("Set A: " + textFieldA.getText());
+        	labelB.setText("Set B: " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Union")) {
         	description.setText(descriptions[14]);
-        	labelA.setText("Set A: ");
-        	labelB.setText("Set B: ");
-        	labelC.setText(" ");
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
+        	label.setText(buttonName);
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("Set A:  " + textFieldA.getText());
+        	labelB.setText("Set B: " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Compliment")) {
         	description.setText(descriptions[19]);
-        	labelA.setText("Set A: ");
-        	labelB.setText("Set B: ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("Set A: " + textFieldA.getText());
+        	labelB.setText("Set B: " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("P(A|B)")) {
         	description.setText(descriptions[17]);
-        	labelA.setText("Probability og Event A: ");
-        	labelB.setText("Probability og Event B: ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("Probability of Event A = " + textFieldA.getText());
+        	labelB.setText("Probability of Event B = " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Bayes Theorem")) {
         	description.setText(descriptions[22]);
-        	labelA.setText("Probability og Event A: ");
-        	labelB.setText("Probability og Event B: ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("Probability of Event A = " + textFieldA.getText());
+        	labelB.setText("Probability of Event B = " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Factorial")) {
         	description.setText(descriptions[2]);
-        	labelA.setText("n = ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("n = " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Combination")) {
         	description.setText(descriptions[7]);
-        	labelA.setText("n = ");
-        	labelB.setText("r = ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("n = " + textFieldA.getText());
+        	labelB.setText("r =  " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Permutation")) {
         	description.setText(descriptions[12]);
-        	labelA.setText("n = ");
-        	labelB.setText("r = ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("n = " + textFieldA.getText());
+        	labelB.setText("r =  " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Binomial Mean")) {
         	description.setText(descriptions[6]);
-        	labelA.setText("p = ");
-        	labelB.setText("n = ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
+        	labelB.setText("n =  " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Binomial Variance")) {
         	description.setText(descriptions[11]);
-        	labelA.setText("p = ");
-        	labelB.setText("n = ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
+        	labelB.setText("n =  " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Binomial Std Dev")) {
         	description.setText(descriptions[16]);
-        	labelA.setText("p = ");
-        	labelB.setText("n = ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
+        	labelB.setText("n =  " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Binomial PMF")) {
         	description.setText(descriptions[11]);
@@ -444,45 +608,82 @@ public class CalculatorGUI implements ActionListener {
         }
         if(buttonName.equals("Geometric PMF")) {
         	description.setText(descriptions[0]);
-        	labelA.setText("p = ");
-        	labelB.setText("n = ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
+        	labelB.setText("n =  " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Geometric Before N")) {
         	description.setText(descriptions[5]);
-        	labelA.setText("p = ");
-        	labelB.setText("n =  ");
-        	labelC.setText(" ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(true);
         	textFieldC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	textFieldB.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
+        	labelB.setText("n =  " + textFieldB.getText());
+        	labelC.setText(" ");
+        	labelA.setVisible(true);
+        	labelB.setVisible(true);
         }
         if(buttonName.equals("Geometric Mean")) {
         	description.setText(descriptions[10]);
-        	labelA.setText("p = ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Geometric Variance")) {
         	description.setText(descriptions[15]);
-        	labelA.setText("p = ");
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
+        	label.setText(buttonName);
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Geometric Std Dev")) {
         	description.setText(descriptions[20]);
-        	labelA.setText("p = ");
+        	label.setText(buttonName);
+        	textFieldA.setText("");
+        	textFieldB.setText("");
+        	textFieldC.setText("");
         	labelB.setText(" ");
         	labelC.setText(" ");
+        	labelB.setVisible(false);
+        	labelC.setVisible(false);
+        	textFieldA.setBackground(Color.WHITE);
+        	labelA.setText("p = " + textFieldA.getText());
         	textFieldA.setVisible(true);
         	textFieldB.setVisible(false);
         	textFieldC.setVisible(false);
@@ -534,6 +735,11 @@ public class CalculatorGUI implements ActionListener {
         		|| LastButton.equals("P(A|B)") || LastButton.equals("Bayes Theorem") || LastButton.equals("Geometric PMF") 
         		|| LastButton.equals("Geometric Before N") || LastButton.equals("Birthday Paradox"))) {
             DisplayData info = new DisplayTwoDoubles(textFieldA.getText(), textFieldB.getText(), LastButton);
+            DisplayTwoDoubles cow = (DisplayTwoDoubles)info;
+			System.out.println(cow.getDub1());
+            System.out.println(LastButton);
+            System.out.println(" " );
+            System.out.println(textFieldB.getText());
             controlOut.put(info);
             new Thread(() -> {
                 String answer = null;
