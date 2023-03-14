@@ -24,10 +24,10 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import control.Pipe;
-import main.data.types.DisplayData;
-import main.data.types.DisplaySingleArray;
-import main.data.types.DisplaySolution;
+import control.io.Pipe;
+import main.data.types.display.DisplayData;
+import main.data.types.display.DisplaySingleArray;
+import main.data.types.display.DisplaySolution;
 
 public class MainMenuGUI {
 	private Pipe<DisplaySolution> controlIn; 

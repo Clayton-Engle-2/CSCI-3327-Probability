@@ -28,13 +28,13 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import control.Pipe;
-import main.data.types.DisplayData;
-import main.data.types.DisplaySingleArray;
-import main.data.types.DisplaySingleDouble;
-import main.data.types.DisplaySolution;
-import main.data.types.DisplayTwoArrays;
-import main.data.types.DisplayTwoDoubles;
+import control.io.Pipe;
+import main.data.types.display.DisplayData;
+import main.data.types.display.DisplaySingleArray;
+import main.data.types.display.DisplaySingleDouble;
+import main.data.types.display.DisplaySolution;
+import main.data.types.display.DisplayTwoArrays;
+import main.data.types.display.DisplayTwoDoubles;
 
 public class CalculatorGUI implements ActionListener {
 	private JFrame frame;
@@ -377,7 +377,7 @@ public class CalculatorGUI implements ActionListener {
         	textFieldC.setVisible(false);
         }
         if(buttonName.equals("Birthday Paradox")) {
-        	description.setText(descriptions[9]);
+        	description.setText(descriptions[28]);
         	label.setText(buttonName);
         	textFieldA.setText("");
         	textFieldB.setText("");

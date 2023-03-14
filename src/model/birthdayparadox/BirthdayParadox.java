@@ -1,6 +1,6 @@
 package model.birthdayparadox;
 
-import main.data.structures.HashTable;
+import main.data.structures.arrays.HashTable;
 
 public class BirthdayParadox {
 	
@@ -10,7 +10,7 @@ public class BirthdayParadox {
 	
 	public double beginSimulation(int people, int numOfSim) {
 		
-		double ret = conclusion(runSimulation(people, numOfSim));
+		double ret = runSimulation(people, numOfSim);
 		//29696100 
 		return ret;
 	}
@@ -48,8 +48,6 @@ public class BirthdayParadox {
 		return result;
 	}
 	
-	public double conclusion(double result) {
-		return result;
-	}
+	
     
 }

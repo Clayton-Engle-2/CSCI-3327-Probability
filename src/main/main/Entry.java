@@ -1,6 +1,6 @@
 package main.main;
 
-import control.Loader;
+import main.load.Loader;
 
 public class Entry {
 	

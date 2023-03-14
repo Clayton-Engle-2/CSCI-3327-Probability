@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 
-import main.data.structures.HashTable;
-import main.data.structures.LinkedStack;
+import main.data.structures.arrays.HashTable;
+import main.data.structures.lists.stack.LinkedStack;
 /*
  
  */

@@ -1,7 +1,7 @@
 package control.tasks.tasksuper;
 
-import control.Pipe;
-import main.data.types.ShareData;
+import control.io.Pipe;
+import main.data.types.numbers.ShareData;
 
 public class TaskFactory{
 	

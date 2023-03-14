@@ -1,15 +1,16 @@
 package control;
 
+import control.io.Pipe;
 import control.sched.ThreadScheduler;
 import control.tasks.tasksuper.Task;
-import main.data.structures.RedBlackNode;
-import main.data.structures.SinglyLinkedList;
-import main.data.types.DataToStringConverter;
-import main.data.types.DisplayData;
-import main.data.types.DisplaySolution;
-import main.data.types.DisplayTwoDoubles;
-import main.data.types.ShareData;
-import main.data.types.StringToTaskConverter;
+import main.data.structures.lists.single.SinglyLinkedList;
+import main.data.structures.trees.RedBlackNode;
+import main.data.types.converter.DataToStringConverter;
+import main.data.types.converter.StringToTaskConverter;
+import main.data.types.display.DisplayData;
+import main.data.types.display.DisplaySolution;
+import main.data.types.display.DisplayTwoDoubles;
+import main.data.types.numbers.ShareData;
 
 public class ProgramControl {
 	
