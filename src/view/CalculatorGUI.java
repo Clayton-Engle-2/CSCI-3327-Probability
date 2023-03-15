@@ -68,11 +68,11 @@ public class CalculatorGUI implements ActionListener {
         frame.setLayout(new BorderLayout());
         
         BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File("C:\\Users\\Clayton\\Desktop\\Pictures\\snow.jpg"));
+	/*	try {
+			img = ImageIO.read(new File());
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} */
 
 		ImageIcon imageIcon = new ImageIcon(img);
 		Image image = imageIcon.getImage();
