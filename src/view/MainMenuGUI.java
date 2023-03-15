@@ -64,11 +64,11 @@ public class MainMenuGUI {
 				frame.setLayout(new BorderLayout());
 
 				BufferedImage img = null;
-				try {
-					img = ImageIO.read(new File("C:\\Users\\Clayton\\Desktop\\Pictures\\intro.jpg"));
+				/*try {
+					img = ImageIO.read(new File());
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+				} */
 
 				ImageIcon imageIcon = new ImageIcon(img);
 				Image image = imageIcon.getImage();
