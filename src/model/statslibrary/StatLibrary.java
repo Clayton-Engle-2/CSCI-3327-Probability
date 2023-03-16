@@ -104,49 +104,6 @@ public class StatLibrary {
 		}	    
 		return temp/((double)data.length - 1);
 	}
-	
-	public double calculateVarianceParallel(double[] values, int numThreads) throws InterruptedException {
-	    int n = values.length;
-	    double sum = 0;
-	    double[] partialSums = new double[numThreads];
-	    int chunkSize = n / numThreads;
-	    Thread[] threads = new Thread[numThreads];
-	    for (int i = 0; i < numThreads; i++) {
-	        int start = i * chunkSize;
-	        int end = (i == numThreads - 1) ? n : (i + 1) * chunkSize;
-	        threads[i] = new Thread(() -> {
-	            double partialSum = 0;
-	            for (int j = start; j < end; j++) {
-	                partialSum += values[j];
-	            }
-	     //       partialSums[i] = partialSum;
-	        });
-	        threads[i].start();
-	    }
-	    for (int i = 0; i < numThreads; i++) {
-	        threads[i].join();
-	        sum += partialSums[i];
-	    }
-	    double mean = sum / n;
-	    sum = 0;
-	    for (int i = 0; i < numThreads; i++) {
-	        int start = i * chunkSize;
-	        int end = (i == numThreads - 1) ? n : (i + 1) * chunkSize;
-	        threads[i] = new Thread(() -> {
-	            double partialSum = 0;
-	            for (int j = start; j < end; j++) {
-	                partialSum += (values[j] - mean) * (values[j] - mean);
-	            }
-	           // partialSums[i] = partialSum;
-	        });
-	        threads[i].start();
-	    }
-	    for (int i = 0; i < numThreads; i++) {
-	        threads[i].join();
-	        sum += partialSums[i];
-	    }
-	    return sum / (n - 1);
-	}
 
 	/**
 	 * This method calculates the standard deviation of a set of numbers stored in an array.
